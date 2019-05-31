@@ -18,6 +18,9 @@ use num_traits::ToPrimitive;
 use std::mem;
 use std::sync::Arc;
 use webrender::api::DirtyRect;
+use gfx::text::text_run::TextRun;
+use gfx::text::font::Font;
+use unicode_bidi as bidi;
 
 /// The canvas data stores a state machine for the current status of
 /// the path data and any relevant transformations that are
@@ -250,10 +253,29 @@ impl<'a> CanvasData<'a> {
     }
 
     pub fn fill_text(&self, text: String, x: f64, y: f64, max_width: Option<f64>) {
-        error!(
+        // create font
+        let font = with_thread_local_font_context(layout_context, |font_context| {
+            //
+        });;
+
+        // shaping options
+        let options = /* */;
+
+        // build text run
+        let textrun = TextRun::new(
+            font,
+            text,
+            options,
+            bidi_level: bidi::Level::ltr(),
+            breaker: None,
+        )
+        // convert_text_run_to_glyphs => glyphbuf
+
+        //self.drawtarget.fill_glyphs(azfontref: AzScaledFontRef, mut glyphbuf: struct__AzGlyphBuffer, azure_pattern: AzColorPatternRef, mut options: struct__AzDrawOptions, rendering_options: AzGlyphRenderingOptionsRef)
+        /*error!(
             "Unimplemented canvas2d.fillText. Values received: {}, {}, {}, {:?}.",
             text, x, y, max_width
-        );
+        );*/
     }
 
     pub fn fill_rect(&self, rect: &Rect<f32>) {
